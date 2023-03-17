@@ -25,7 +25,7 @@ module.exports = {
                 city_id SERIAL PRIMARY KEY,
                 name VARCHAR,
                 rating INTEGER,
-                country_id INTEGER
+                country_id INTEGER NOT NULL REFERENCES countries(country_id)
             );
 
             insert into countries (name)
@@ -236,5 +236,13 @@ module.exports = {
             .then(dbResult => {
                 res.status(200).send(dbResult[0])
             })
+    },
+
+    createCity: (req, res) => {
+        let {name, rating, countryId} = req.body;
+
+        sequelize.query(`INSERT INTO cities(name, rating, country_id)
+        VALUES('${name}', ${rating}, ${countryId});`)
+            .then(dbResult => res.status(200).send(dbResult[0]))
     }
 }
