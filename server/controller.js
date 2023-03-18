@@ -252,5 +252,14 @@ module.exports = {
         FROM cities
         JOIN countries ON cities.country_id = countries.country_id`)
             .then(dbResult => res.status(200).send(dbResult[0]))
+    },
+
+    deleteCity: (req, res) => {
+        let { id } = req.params
+        sequelize.query(`
+        DELETE 
+        FROM cities
+        WHERE city_id = ${id}`)
+            .then(dbResult => res.status(200).send(dbResult[0]))
     }
 }
